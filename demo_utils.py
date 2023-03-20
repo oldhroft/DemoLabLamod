@@ -1,6 +1,7 @@
 import matplotlib.patches as mptchs
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 from scipy.spatial.distance import cdist
 from multiprocessing import Process, Queue, cpu_count
 from typing import Union
@@ -489,8 +490,6 @@ def plot_data_grnn(X_train, y_train, X_val, y_val, X_test, y_test, grnn, scale=0
                 s=50, c=colors_test, marker="x", label="test")
     plt.title("Sigma = {:.3f}\nMSE val = {:.3f}\nMSE test = {:.3f}".format(
         grnn.sigma, mse_val, mse_test))
-
-import pandas as pd
 
 class GRNN:
     def __init__(self, X, y, sigma=.1):
