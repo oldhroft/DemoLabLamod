@@ -432,8 +432,8 @@ def plot_data_label(X_train, y_train, X_val, y_val, X_test, y_test):
                 s=50, c=colors_test, marker="x", label="test")
 
 
-def plot_data_grnn(X_train, y_train, X_val, y_val, X_test, y_test, grnn, scale=0.3):
-    fig = plt.figure(figsize=(10, 7), dpi=1920 / 16)
+def plot_data_grnn(X_train, y_train, X_val, y_val, X_test, y_test, grnn, scale=0.3,
+                   bbox_to_anchor=(1.125, 1)):
 
     cmap = plt.cm.viridis  # define the colormap
     # extract all colors from the .jet map
@@ -490,6 +490,10 @@ def plot_data_grnn(X_train, y_train, X_val, y_val, X_test, y_test, grnn, scale=0
                 s=50, c=colors_test, marker="x", label="test")
     plt.title("Sigma = {:.3f}\nMSE val = {:.3f}\nMSE test = {:.3f}".format(
         grnn.sigma, mse_val, mse_test))
+    leg = plt.legend(bbox_to_anchor=bbox_to_anchor)
+
+    for _leg in leg.legendHandles:
+        _leg.set_color('black')
 
 class GRNN:
     def __init__(self, X, y, sigma=.1):
@@ -533,7 +537,8 @@ def optinize_grnn(X, y, X_hld, y_hld, min_sigma, max_sigma, n):
 def create_plot_grnn(
         X_train, y_train, X_val, y_val, X_test, y_test,
         sigma, scale=1.3, optimize=False,
-        min_sigma=.01, max_sigma=10, n=1000):
+        min_sigma=.01, max_sigma=10, n=1000,
+        bbox_to_anchor=(1.125, 1)):
     
     if optimize:
         sigmas, errors, min_err, sigma = optinize_grnn(
@@ -543,6 +548,11 @@ def create_plot_grnn(
     y_train1 = pd.get_dummies(y_train).values
     grnn = GRNN(X_train, y_train1, sigma=sigma)
     plot_data_grnn(X_train, y_train, X_val, y_val, X_test, y_test, grnn, scale=scale)
+
+    leg = plt.legend(bbox_to_anchor=bbox_to_anchor)
+
+    for _leg in leg.legendHandles:
+        _leg.set_color('black')
 
     if optimize:
         fig = plt.figure(figsize=(10, 7), dpi=1920 / 16)
