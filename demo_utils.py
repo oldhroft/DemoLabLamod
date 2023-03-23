@@ -406,8 +406,8 @@ def random_gaussians_classes(
     )
 
 
-def plot_data_label(X_train, y_train, X_val, y_val, X_test, y_test):
-    fig = plt.figure(figsize=(10, 7), dpi=1920 / 16)
+def plot_data_label(X_train, y_train, X_val, y_val, X_test, y_test,
+                    bbox_to_anchor=(1.125, 1)):
 
     cmap = plt.cm.viridis  # define the colormap
     # extract all colors from the .jet map
@@ -430,6 +430,11 @@ def plot_data_label(X_train, y_train, X_val, y_val, X_test, y_test):
                 s=50, c=colors_val, marker="v", label="val")
     plt.scatter(X_test[:, 0], X_test[:, 1], 
                 s=50, c=colors_test, marker="x", label="test")
+
+    leg = plt.legend(bbox_to_anchor=bbox_to_anchor)
+
+    for _leg in leg.legendHandles:
+        _leg.set_color('black')
 
 
 def plot_data_grnn(X_train, y_train, X_val, y_val, X_test, y_test, grnn, scale=0.3,
@@ -547,12 +552,8 @@ def create_plot_grnn(
         )
     y_train1 = pd.get_dummies(y_train).values
     grnn = GRNN(X_train, y_train1, sigma=sigma)
-    plot_data_grnn(X_train, y_train, X_val, y_val, X_test, y_test, grnn, scale=scale)
-
-    leg = plt.legend(bbox_to_anchor=bbox_to_anchor)
-
-    for _leg in leg.legendHandles:
-        _leg.set_color('black')
+    plot_data_grnn(X_train, y_train, X_val, y_val, X_test, y_test, grnn, 
+        scale=scale, bbox_to_anchor=bbox_to_anchor)
 
     if optimize:
         fig = plt.figure(figsize=(10, 7), dpi=1920 / 16)
